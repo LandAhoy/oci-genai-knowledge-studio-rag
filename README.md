@@ -1,2 +1,50 @@
-# oci-genai-knowledge-studio-rag
-OCI Generative AI Knowledge Studio — deployable RAG-based enterprise knowledge assistant
+# OCI Generative AI Knowledge Studio
+
+OCI Generative AI Knowledge Studio is a deployable, Oracle-branded enterprise
+knowledge assistant. It combines document ingestion, configurable parsing and
+chunking, hybrid retrieval, grounded chat, optional citations, agent workflows,
+MCP integration, model-provider configuration, data-source connectors, and
+chat-channel configuration.
+
+The project integrates OCI Generative AI through an OpenAI-compatible adapter.
+The tested OCI model configuration includes:
+
+- `cohere.command-a-03-2025` for text chat;
+- `cohere.command-a-vision` for vision-capable chat; and
+- `cohere.embed-v4.0` at 1,536 dimensions, using `SEARCH_DOCUMENT` for indexing
+  and `SEARCH_QUERY` for retrieval.
+
+## Repository contents
+
+- `web/`, `rag/`, `api/`, `mcp/`, `agent/`, and related directories: complete
+  application source.
+- `docker/`: local multi-service deployment manifests and OCI override.
+- `deployment/oci-genai-adapter/`: OCI GenAI adapter source, requirements,
+  service template, and secret-free environment template.
+- `deployment/README.md`: secure end-to-end deployment instructions.
+- `scripts/bootstrap-local-env.sh`: creates a local ignored runtime environment
+  file with newly generated service passwords.
+
+## Security boundary
+
+This repository deliberately excludes live credentials, API keys, OCI config,
+private keys, database volumes, object-store data, search indexes, chat history,
+and uploaded documents. Do not commit a populated `.env` file.
+
+Use the supplied templates and your organization's secret-management process.
+The OCI adapter is designed to run with an OCI Instance Principal; grant that
+principal only the OCI Generative AI permissions required for the configured
+compartment and models.
+
+## Start here
+
+Read [deployment/README.md](deployment/README.md) before deployment. It covers
+the required OCI IAM policy, adapter setup, Docker stack, model-provider setup,
+validation, and rollback.
+
+## Upstream notices
+
+This repository retains the applicable upstream source license and notices in
+[`LICENSE`](LICENSE) and source-file headers. The application-specific OCI,
+embedding-role, Markdown-rendering, and branding changes are included in this
+repository.

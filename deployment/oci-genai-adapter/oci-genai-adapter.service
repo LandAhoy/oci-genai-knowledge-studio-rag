@@ -1,0 +1,18 @@
+[Unit]
+Description=OCI Generative AI OpenAI-Compatible Adapter
+Wants=network-online.target
+After=network-online.target docker.service
+
+[Service]
+Type=simple
+User=opc
+Group=opc
+WorkingDirectory=/opt/oci-genai-adapter
+EnvironmentFile=/etc/oci-genai-adapter.env
+ExecStart=/opt/oci-genai-adapter/venv/bin/uvicorn app:app --host 0.0.0.0 --port 8181
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
