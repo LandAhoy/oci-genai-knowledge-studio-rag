@@ -1,5 +1,7 @@
 # OCI Generative AI Knowledge Studio
 
+> **Project owner and maintainer: HAFEEZ**
+
 OCI Generative AI Knowledge Studio is a deployable, Oracle-branded enterprise
 knowledge assistant. It combines document ingestion, configurable parsing and
 chunking, hybrid retrieval, grounded chat, optional citations, agent workflows,
