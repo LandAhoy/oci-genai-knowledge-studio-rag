@@ -352,6 +352,9 @@ class ESConnection(ESConnectionBase):
             assert "id" in d
             d_copy = copy.deepcopy(d)
             d_copy["kb_id"] = knowledgebase_id
+            # Ordinary source chunks are searchable by default. Preserve an
+            # explicit availability value, including 0 for hidden rows.
+            d_copy.setdefault("available_int", 1)
             # Use id as _id for uniqueness, also keep "id" as a regular field for sorting
             meta_id = d_copy.get("id", "")
             operations.append({"index": {"_index": index_name, "_id": meta_id}})

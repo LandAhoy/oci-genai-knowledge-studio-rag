@@ -1,8 +1,17 @@
 services:
   ragflow-cpu:
-    image: ragflow-oci:v0.27.1-oci-embed-markdown-brand-v2
+    image: ragflow-oci:v0.27.1-oci-embed-markdown-brand-v5-retrieval
+    ports:
+      - "80:80"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
       - ../rag/advanced_rag/harness/prompts/report_prompt.py:/ragflow/rag/advanced_rag/harness/prompts/report_prompt.py:ro
       - ../rag/advanced_rag/agentic_rag_graph.py:/ragflow/rag/advanced_rag/agentic_rag_graph.py:ro
+    networks:
+      - ragflow
+
+networks:
+  ragflow:
+    external: true
+    name: docker_ragflow

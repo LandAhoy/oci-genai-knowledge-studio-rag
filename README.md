@@ -44,6 +44,17 @@ Read [deployment/README.md](deployment/README.md) before deployment. It covers
 the required OCI IAM policy, adapter setup, Docker stack, model-provider setup,
 validation, and rollback.
 
+## Current deployment fixes
+
+The OCI deployment image tag is `ragflow-oci:v0.27.1-oci-embed-markdown-brand-v5-retrieval`.
+It includes two reliability fixes for OCI-backed knowledge-base chat:
+
+- Newly indexed ordinary source chunks default to `available_int=1`, matching
+  the retrieval filter while preserving intentionally disabled chunks.
+- If a selected model does not support tool calls (for example, a vision model),
+  a reasoning-enabled chat automatically uses the standard grounded retrieval
+  path instead of answering without its attached knowledge base.
+
 ## Upstream notices
 
 This repository retains the applicable upstream source license and notices in

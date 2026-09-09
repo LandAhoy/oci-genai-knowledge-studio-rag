@@ -2001,6 +2001,18 @@ async def rag_agent(dialog, messages, stream=True, **kwargs):
             yield ans
         return
     kbs, embd_mdl, rerank_mdl, chat_mdl, tts_mdl = get_models(dialog)
+    # Agentic RAG delegates retrieval through a tool call. Some valid chat
+    # models, notably vision-capable OCI models, do not expose tool-calling.
+    # Fall back to normal chat in that case: it performs the same scoped,
+    # grounded retrieval and supports image attachments without a tool call.
+    if not chat_mdl.is_tools:
+        logger.info(
+            "rag_agent: model %s has no tool-calling support; falling back to normal retrieval",
+            chat_mdl.model_config.get("llm_name", "unknown"),
+        )
+        async for ans in async_chat(dialog, messages, stream, **kwargs):
+            yield ans
+        return
     model_type = chat_mdl.model_config["model_type"]
     factory = chat_mdl.model_config.get("llm_factory", "") if chat_mdl.model_config else ""
     text_attachments_content, image_attachments, image_files = get_files_content(messages[-1], model_type)
